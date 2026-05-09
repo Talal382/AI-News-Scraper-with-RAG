@@ -15,7 +15,7 @@ try:
     # 4. Peek at the first 10 items
     if total_count > 0:
         first_10 = collection.peek(limit=10)
-        print("🔍 PREVIEW: FIRST 10 ARTICLES")
+        print(" PREVIEW: FIRST 10 ARTICLES")
         print("-" * 50)
 
         for i in range(len(first_10['ids'])):
@@ -28,5 +28,5 @@ try:
         print("The database is currently empty.")
 
 except Exception as e:
-    print(f"❌ Error: {e}")
+    print(f" Error: {e}")
     print("Check if the collection name in rag_system.py is exactly 'news_articles'.")

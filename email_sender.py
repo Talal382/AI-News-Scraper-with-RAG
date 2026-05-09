@@ -37,6 +37,20 @@ def send_email(news_items):
             .title { color: #1a73e8; font-size: 18px; font-weight: bold; margin: 0 0 10px 0; }
             .meta { font-size: 12px; color: #666; margin: 5px 0; }
             .summary { line-height: 1.6; color: #333; margin: 10px 0; }
+            .read-more-btn { 
+                display: inline-block; 
+                background-color: #1a73e8; 
+                color: white; 
+                padding: 10px 20px; 
+                text-decoration: none; 
+                border-radius: 5px; 
+                font-weight: bold; 
+                margin-top: 10px;
+                font-size: 14px;
+            }
+            .read-more-btn:hover { 
+                background-color: #1557b0; 
+            }
             .rag-context { 
                 background-color: #e8f4f8; 
                 padding: 10px; 
@@ -74,6 +88,12 @@ def send_email(news_items):
                 {item['summary']}
             </div>
         """
+        
+        # Add read more button with URL
+        if item.get('url'):
+            html += f"""
+            <a href="{item['url']}" class="read-more-btn">🔗 Read Full Article</a>
+            """
         
         # Add RAG context if available
         if item.get('rag_used') and item.get('related_articles'):
@@ -118,11 +138,11 @@ def send_email(news_items):
         server.login(sender, password)
         server.sendmail(sender, receiver, msg.as_string())
         server.quit()
-        print("✅ Email sent successfully!")
+        print(" Email sent successfully!")
         
     except smtplib.SMTPAuthenticationError:
-        print("❌ Email failed: Invalid sender/password. Check .env file")
+        print(" Email failed: Invalid sender/password. Check .env file")
     except smtplib.SMTPException as e:
-        print(f"❌ Email failed: {e}")
+        print(f" Email failed: {e}")
     except Exception as e:
-        print(f"❌ Unexpected error: {e}")
+        print(f" Unexpected error: {e}")

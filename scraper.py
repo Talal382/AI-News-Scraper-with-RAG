@@ -35,7 +35,7 @@ def get_news(limit=5):
                 all_news.append(news_item)
                 
         except Exception as e:
-            print(f"❌ Error fetching from {source_name}: {e}")
+            print(f" Error fetching from {source_name}: {e}")
             continue
 
     return all_news

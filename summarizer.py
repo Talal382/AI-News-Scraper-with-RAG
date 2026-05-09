@@ -18,8 +18,9 @@ def summarize(news_list, rag):
         source = news["source"]
         content = news["content"]
         timestamp = news.get("timestamp", "")
+        url = news.get("url", "")  # Get URL from news item
         
-        print(f"\n⏳ Processing: {title[:60]}...")
+        print(f"\n Processing: {title[:60]}...")
 
         # STEP 1: Retrieve similar articles from vector database (RAG)
         query_text = f"{title}. {content}"
@@ -28,7 +29,7 @@ def summarize(news_list, rag):
         # Format similar articles for the prompt
         context_str = ""
         if similar_articles:
-            context_str = "\n📚 RELATED ARTICLES FOR CONTEXT:\n"
+            context_str = "\n RELATED ARTICLES FOR CONTEXT:\n"
             for i, article in enumerate(similar_articles, 1):
                 context_str += f"\n{i}. {article['title']} (Source: {article['source']})\n"
                 context_str += f"   Summary: {article['summary'][:150]}...\n"
@@ -85,19 +86,21 @@ Output ONLY the summary, nothing else:
                 "title": title,
                 "source": source,
                 "summary": summary_text,
+                "url": url,  # Include URL in summary
                 "related_articles_count": len(similar_articles),
                 "related_articles": similar_articles,
                 "rag_used": len(similar_articles) > 0
             })
             
-            print(f"✅ Finished: {title[:40]}...")
+            print(f" Finished: {title[:40]}...")
 
         except Exception as e:
-            print(f"❌ Error summarizing: {e}")
+            print(f" Error summarizing: {e}")
             summaries.append({
                 "title": title,
                 "source": source,
                 "summary": f"Error: Could not summarize this article",
+                "url": url,  # Include URL even in error case
                 "related_articles_count": 0,
                 "related_articles": [],
                 "rag_used": False

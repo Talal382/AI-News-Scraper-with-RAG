@@ -22,7 +22,7 @@ class RAGSystem:
             # Check if ID already exists
             existing = self.collection.get(ids=[article_id])
             if existing and existing['ids']:
-                print(f"⏩ Skipping Storage: Article already exists in DB.")
+                print(f" Skipping Storage: Article already exists in DB.")
                 return
 
             text_to_embed = f"{title}. {content}"
@@ -38,10 +38,10 @@ class RAGSystem:
                     "content_preview": content[:200]
                 }]
             )
-            print(f"✅ Stored in vector DB: {title[:40]}...")
+            print(f" Stored in vector DB: {title[:40]}...")
             
         except Exception as e:
-            print(f"⚠️ Error storing article: {e}")
+            print(f" Error storing article: {e}")
     
     def retrieve_similar_articles(self, query_text, num_results=3):
         try:
@@ -68,7 +68,7 @@ class RAGSystem:
             
             return similar_articles
         except Exception as e:
-            print(f"⚠️ Error retrieving: {e}")
+            print(f" Error retrieving: {e}")
             return []
     
     def get_database_stats(self):
